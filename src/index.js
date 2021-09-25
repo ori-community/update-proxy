@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import {Cache} from './Cache.js'
 import {Octokit} from '@octokit/rest'
 
@@ -7,6 +8,8 @@ const MOTD_TTL = 10 * 60 * 1000 // 10 minutes
 
 const server = express()
 const cache = new Cache()
+
+server.use(cors())
 
 server.get('/releases', async (req, res) => {
   res.send(await cache.retrieve('releases', RELEASES_TTL, async () => {
