@@ -12,7 +12,7 @@ const cache = new LazyCache()
 server.use(cors())
 
 server.get('/releases', async (req, res) => {
-  res.send(cache.retrieve('releases', RELEASES_TTL, async () => {
+  res.send(await cache.retrieve('releases', RELEASES_TTL, async () => {
     const octokit = new Octokit
     return (await octokit.rest.repos.listReleases({
       owner: 'ori-rando',
@@ -22,7 +22,7 @@ server.get('/releases', async (req, res) => {
 })
 
 server.get('/motd/wotw', async (req, res) => {
-  res.send(cache.retrieve('wotw-motd', MOTD_TTL, async () => {
+  res.send(await cache.retrieve('wotw-motd', MOTD_TTL, async () => {
     const octokit = new Octokit
     const base64Content = (await octokit.rest.repos.getContent({
       owner: 'ori-rando',

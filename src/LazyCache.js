@@ -10,7 +10,7 @@ export class LazyCache {
     this.items = {}
   }
 
-  retrieve(key, ttl, getterPromise) {
+  async retrieve(key, ttl, getterPromise) {
     const existingItem = this.items[key]
 
     if (!existingItem || existingItem.expiresAt <= Date.now()) {
