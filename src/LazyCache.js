@@ -14,7 +14,13 @@ export class LazyCache {
     const existingItem = this.items[key]
 
     if (!existingItem || existingItem.expiresAt <= Date.now()) {
-      getterPromise
+      new Promise(async (resolve, reject) => {
+        try {
+          resolve(await getterPromise)
+        } catch (e) {
+          reject(e)
+        }
+      })
         .then(value => {
           this.items[key] = new CacheItem(Date.now() + ttl, value)
         })
