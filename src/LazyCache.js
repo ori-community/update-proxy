@@ -5,16 +5,20 @@ class CacheItem {
   }
 }
 
-export class Cache {
+export class LazyCache {
   constructor() {
     this.items = {}
   }
 
-  async retrieve(key, ttl, getterPromise) {
+  retrieve(key, ttl, getterPromise) {
     const existingItem = this.items[key]
 
     if (!existingItem || existingItem.expiresAt <= Date.now()) {
-      this.items[key] = new CacheItem(Date.now() + ttl, await getterPromise())
+      getterPromise
+        .then(value => {
+          this.items[key] = new CacheItem(Date.now() + ttl, value)
+        })
+        .catch(console.error)
     }
 
     return this.items[key].data
