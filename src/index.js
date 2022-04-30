@@ -17,6 +17,7 @@ server.get('/releases', async (req, res) => {
     return (await octokit.rest.repos.listReleases({
       owner: 'ori-rando',
       repo: 'build',
+      per_page: 100,
     })).data
   }))
 })
