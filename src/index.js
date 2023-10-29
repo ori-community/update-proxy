@@ -38,6 +38,7 @@ server.get('/motd/wotw', async (req, res) => {
 })
 
 server.get('/wotw-community-patch/latest', async (req, res) => {
+  res.setHeader('Content-Type', 'text/plain')
   res.send(await cache.retrieve('wotw-community-patch-latest', MOTD_TTL, async () => {
     const octokit = new Octokit
     const base64Content = (await octokit.rest.repos.getContent({
