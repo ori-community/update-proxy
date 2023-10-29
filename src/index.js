@@ -37,4 +37,19 @@ server.get('/motd/wotw', async (req, res) => {
   }))
 })
 
+server.get('/wotw-community-patch/latest', async (req, res) => {
+  res.send(await cache.retrieve('wotw-community-patch-latest', MOTD_TTL, async () => {
+    const octokit = new Octokit
+    const base64Content = (await octokit.rest.repos.getContent({
+      owner: 'ori-community',
+      repo: 'wotw-community-patch-info',
+      path: 'latest-version'
+    })).data.content
+
+    return {
+      motd: Buffer.from(base64Content, 'base64').toString('utf-8'),
+    }
+  }))
+})
+
 server.listen(3000, () => console.log('Server running on port 3000'))
