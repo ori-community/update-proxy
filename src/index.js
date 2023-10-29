@@ -46,9 +46,7 @@ server.get('/wotw-community-patch/latest', async (req, res) => {
       path: 'latest-version'
     })).data.content
 
-    return {
-      motd: Buffer.from(base64Content, 'base64').toString('utf-8'),
-    }
+    return Buffer.from(base64Content, 'base64').toString('utf-8').trim()
   }))
 })
 
