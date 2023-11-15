@@ -43,7 +43,7 @@ server.get('/wotw-community-patch/latest', async (req, res) => {
     const octokit = new Octokit
     const base64Content = (await octokit.rest.repos.getContent({
       owner: 'ori-community',
-      repo: 'wotw-community-patch-info',
+      repo: 'wotw-community-patch-releases',
       path: 'latest-version'
     })).data.content
 
