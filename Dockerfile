@@ -1,18 +1,18 @@
-# Stage 1
-FROM node:alpine as build
+FROM rust:alpine AS build
 
 WORKDIR /app
 COPY . /app
-RUN yarn install
+RUN apk add --no-cache musl-dev && \
+    cargo build --release
 
 
-# Stage 2
-FROM node:alpine
-
-COPY --from=build /app /app
+FROM gcr.io/distroless/static-debian13
 
 WORKDIR /app
 
-ENTRYPOINT ["node", "/app/src/index.js"]
+ENV RUST_LOG=info
 
-EXPOSE 3000
+COPY --from=build /app/target/release/update-proxy /app/update-proxy
+
+ENTRYPOINT ["/app/update-proxy"]
+CMD []
