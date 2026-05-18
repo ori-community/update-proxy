@@ -34,5 +34,7 @@ pub async fn handler(State(state): State<ApplicationState>, Query(query): Query<
         .await
         .cache_clear();
 
+    log::info!("Cache cleared on request");
+
     StatusCode::NO_CONTENT.into_response()
 }
