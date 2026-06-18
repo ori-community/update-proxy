@@ -8,6 +8,7 @@ use tokio::sync::Mutex;
 pub enum CacheEntry {
     WotwReleases,
     WotwMotd,
+    WotwCommunityPatchLatest,
 }
 
 #[derive(Clone)]

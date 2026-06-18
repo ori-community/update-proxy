@@ -24,6 +24,7 @@ async fn main() {
         .route("/releases", get(http::wotw_releases::handler))  // Legacy v4 route
         .route("/releases/wotw", get(http::wotw_releases::handler))
         .route("/motd/wotw", get(http::wotw_motd::handler))
+        .route("/wotw-community-patch/latest", get(http::wotw_community_patch_releases::handler))
         .route("/clear-cache", post(http::clear_cache::handler))
         .with_state(application_state.clone())
         .layer(cors)
